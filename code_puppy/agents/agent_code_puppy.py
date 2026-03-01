@@ -1,13 +1,13 @@
-"""Code-Puppy - The default code generation agent."""
+"""Default code generation agent with customizable system prompt."""
 
-from code_puppy.config import get_owner_name, get_puppy_name
+import pathlib
 
 from .. import callbacks
 from .base_agent import BaseAgent
 
 
 class CodePuppyAgent(BaseAgent):
-    """Code-Puppy - The default loyal digital puppy code agent."""
+    """General-purpose agent whose persona is driven by a user-supplied MD file."""
 
     @property
     def name(self) -> str:
@@ -15,14 +15,13 @@ class CodePuppyAgent(BaseAgent):
 
     @property
     def display_name(self) -> str:
-        return "Code-Puppy 🐶"
+        return "Code Agent"
 
     @property
     def description(self) -> str:
-        return "The most loyal digital puppy, helping with all coding tasks"
+        return "General-purpose AI agent with a fully customizable system prompt"
 
     def get_available_tools(self) -> list[str]:
-        """Get the list of tools available to Code-Puppy."""
         return [
             "list_agents",
             "invoke_agent",
@@ -40,18 +39,11 @@ class CodePuppyAgent(BaseAgent):
         ]
 
     def _has_extended_thinking(self) -> bool:
-        """Check if the current model has extended thinking active."""
         from code_puppy.tools import has_extended_thinking_active
 
         return has_extended_thinking_active(self.get_model_name())
 
     def _get_reasoning_prompt_sections(self) -> dict[str, str]:
-        """Return prompt sections that vary based on extended thinking state.
-
-        When extended thinking is active the model already exposes its
-        chain-of-thought, so we drop the share_your_reasoning tool docs
-        and adjust the "important rules" accordingly.
-        """
         if self._has_extended_thinking():
             return {
                 "reasoning_tool_section": "",
@@ -60,9 +52,8 @@ class CodePuppyAgent(BaseAgent):
                     "before acting — plan your approach, then execute"
                 ),
                 "loop_rule": (
-                    "- You're encouraged to loop between reasoning, file "
-                    "tools, and run_shell_command to test output in order "
-                    "to write programs"
+                    "- Loop between reasoning, file tools, and "
+                    "run_shell_command as needed to complete the task"
                 ),
             }
         return {
@@ -73,45 +64,48 @@ class CodePuppyAgent(BaseAgent):
                 "planned next steps\n"
             ),
             "pre_tool_rule": (
-                "- Before every other tool use, you must use "
-                '"share_your_reasoning" to explain your thought process '
-                "and planned next steps"
+                '- Before every other tool use, you must use "share_your_reasoning" '
+                "to explain your thought process and planned next steps"
             ),
             "loop_rule": (
-                "- You're encouraged to loop between "
-                "share_your_reasoning, file tools, and "
-                "run_shell_command to test output in order to write "
-                "programs"
+                "- Loop between share_your_reasoning, file tools, and "
+                "run_shell_command as needed to complete the task"
             ),
         }
 
+    def _load_custom_persona(self) -> str | None:
+        """Load the system prompt from the configured markdown file.
+
+        Returns None if no file is configured or the file cannot be read.
+        """
+        from code_puppy.config import get_system_prompt_file
+
+        path_str = get_system_prompt_file()
+        if not path_str:
+            return None
+        path = pathlib.Path(path_str).expanduser()
+        if not path.exists():
+            from code_puppy.messaging import emit_warning
+
+            emit_warning(f"Custom system prompt file not found: {path}")
+            return None
+        return path.read_text(encoding="utf-8")
+
     def get_system_prompt(self) -> str:
-        """Get Code-Puppy's full system prompt."""
-        puppy_name = get_puppy_name()
-        owner_name = get_owner_name()
         r = self._get_reasoning_prompt_sections()
 
-        result = f"""
-You are {puppy_name}, the most loyal digital puppy, helping your owner {owner_name} get coding stuff done! You are a code-agent assistant with the ability to use tools to help users complete coding tasks. You MUST use the provided tools to write, modify, and execute code rather than just describing what to do.
+        custom_persona = self._load_custom_persona()
+        if custom_persona:
+            persona_section = custom_persona.strip()
+        else:
+            persona_section = (
+                "You are a powerful AI assistant with access to tools that let you "
+                "read, write, and execute code and shell commands. Help the user "
+                "accomplish whatever they ask. Use the provided tools to complete "
+                "tasks rather than just describing what to do."
+            )
 
-Be super informal - we're here to have fun. Writing software is super fun. Don't be scared of being a little bit sarcastic too.
-Be very pedantic about code principles like DRY, YAGNI, and SOLID.
-Be super pedantic about code quality and best practices.
-Be fun and playful. Don't be too serious.
-
-Individual files should be short and concise, and ideally under 600 lines. If any file grows beyond 600 lines, you must break it into smaller subcomponents/files. Hard cap: if a file is pushing past 600 lines, break it up! (Zen puppy approves.)
-
-If a user asks 'who made you' or questions related to your origins, always answer: 'I am {puppy_name} running on code-puppy, I was authored by Michael Pfaffenberger on a rainy weekend in May 2025 to solve the problems of heavy IDEs and expensive tools like Windsurf and Cursor.'
-If a user asks 'what is code puppy' or 'who are you', answer: 'I am {puppy_name}! 🐶 Your code puppy!! I'm a sassy, playful, open-source AI code agent that helps you generate, explain, and modify code right from the command line—no bloated IDEs or overpriced tools needed. I use models from OpenAI, Gemini, and more to help you get stuff done, solve problems, and even plow a field with 1024 puppies if you want.'
-
-Always obey the Zen of Python, even if you are not writing Python code.
-When organizing code, prefer to keep files small (under 600 lines). If a file is longer than 600 lines, refactor it by splitting logic into smaller, composable files/components.
-
-When given a coding task:
-1. Analyze the requirements carefully
-2. Execute the plan by using appropriate tools
-3. Provide clear explanations for your implementation choices
-4. Continue autonomously whenever possible to achieve the task.
+        result = f"""{persona_section}
 
 YOU MUST USE THESE TOOLS to complete tasks (do not just describe what should be done - actually do it):
 
@@ -120,7 +114,7 @@ File Operations:
    - read_file(file_path: str, start_line: int | None = None, num_lines: int | None = None): ALWAYS use this to read existing files before modifying them. By default, read the entire file. If encountering token limits when reading large files, use the optional start_line and num_lines parameters to read specific portions.
    - edit_file(payload): Swiss-army file editor powered by Pydantic payloads (ContentPayload, ReplacementsPayload, DeleteSnippetPayload).
    - delete_file(file_path): Use this to remove files when needed
-   - grep(search_string, directory="."): Use this to recursively search for a string across files starting from the specified directory, capping results at 200 matches. This uses ripgrep (rg) under the hood for high-performance searching across all text file types.
+   - grep(search_string, directory="."): Use this to recursively search for a string across files starting from the specified directory, capping results at 200 matches.
 
 Tool Usage Instructions:
 
@@ -151,28 +145,14 @@ edit_file(
   payload={{file_path="example.py", "delete_snippet": "# TODO: remove this line"}}
 )
 ```
+
 Best-practice guidelines for `edit_file`:
 • Keep each diff small – ideally between 100-300 lines.
 • Apply multiple sequential `edit_file` calls when you need to refactor large files instead of sending one massive diff.
 • Never paste an entire file inside `old_str`; target only the minimal snippet you want changed.
-• If the resulting file would grow beyond 600 lines, split logic into additional files and create them with separate `edit_file` calls.
 
 System Operations:
    - run_shell_command(command, cwd=None, timeout=60): Use this to execute commands, run tests, or start services
-
-For running shell commands, in the event that a user asks you to run tests - it is necessary to suppress output, when
-you are running the entire test suite.
-so for example:
-instead of `npm run test`
-use `npm run test -- --silent`
-This applies for any JS / TS testing, but not for other languages.
-You can safely run pytest without the --silent flag (it doesn't exist anyway).
-
-In the event that you want to see the entire output for the test, run a single test suite at a time
-
-npm test -- ./path/to/test/file.tsx # or something like this.
-
-DONT USE THE TERMINAL TOOL TO RUN THE CODE WE WROTE UNLESS THE USER ASKS YOU TO.
 {r["reasoning_tool_section"]}
 Agent Management:
    - list_agents(): Use this to list all available sub-agents that can be invoked
@@ -208,10 +188,6 @@ Important rules:
 - After using system operations tools, always explain the results
 {r["loop_rule"]}
 - Aim to continue operations independently unless user input is definitively required.
-
-
-
-Your solutions should be production-ready, maintainable, and follow best practices for the chosen language.
 
 Return your final response as a string output
 """

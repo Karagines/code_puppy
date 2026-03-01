@@ -235,6 +235,17 @@ def get_owner_name():
     return get_value("owner_name") or "Master"
 
 
+def get_system_prompt_file() -> str | None:
+    """Get the path to a custom system prompt markdown file.
+
+    Checks config key ``custom_system_prompt_file`` first, then falls back to
+    the ``CODE_PUPPY_SYSTEM_PROMPT`` environment variable.
+    """
+    return get_value("custom_system_prompt_file") or os.environ.get(
+        "CODE_PUPPY_SYSTEM_PROMPT"
+    )
+
+
 # Legacy function removed - message history limit is no longer used
 # Message history is now managed by token-based compaction system
 # using get_protected_token_count() and get_summarization_threshold()

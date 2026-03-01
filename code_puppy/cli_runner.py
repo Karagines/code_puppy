@@ -87,6 +87,13 @@ async def main():
         help="Specify which model to use (e.g., --model gpt-5)",
     )
     parser.add_argument(
+        "--system-prompt",
+        "-s",
+        type=str,
+        dest="system_prompt",
+        help="Path to a markdown file to use as the agent system prompt",
+    )
+    parser.add_argument(
         "command", nargs="*", help="Run a single command (deprecated, use -p instead)"
     )
     args = parser.parse_args()
@@ -162,6 +169,13 @@ async def main():
         set_model_name(early_model)
 
     ensure_config_exists()
+
+    # Apply custom system prompt file if specified via CLI
+    if args.system_prompt:
+        from code_puppy.config import set_value
+
+        set_value("custom_system_prompt_file", args.system_prompt)
+        emit_info(f"📄 Using custom system prompt: {args.system_prompt}")
 
     # Validate cancel_agent_key configuration early
     try:

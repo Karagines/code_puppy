@@ -1,4 +1,14 @@
 {
+  "grok-4-1-fast-reasoning": {
+    "type": "custom_openai",
+    "name": "grok-4-1-fast-reasoning",
+    "custom_endpoint": {
+      "url": "https://api.x.ai/v1",
+      "api_key": "$XAI_API_KEY"
+    },
+    "context_length": 131072,
+    "supported_settings": ["temperature", "top_p"]
+  },
   "synthetic-GLM-4.7": {
     "type": "custom_openai",
     "name": "hf:zai-org/GLM-4.7",
