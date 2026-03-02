@@ -17,6 +17,9 @@ class CodePuppyAgent(BaseAgent):
     def display_name(self) -> str:
         return "Code Agent"
 
+    def get_identity(self) -> str:
+        return f"grokforge-{self.id[:6]}"
+
     @property
     def description(self) -> str:
         return "General-purpose AI agent with a fully customizable system prompt"
