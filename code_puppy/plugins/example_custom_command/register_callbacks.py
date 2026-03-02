@@ -28,9 +28,9 @@ def _handle_custom_command(command: str, name: str):
         parts = command.split(maxsplit=1)
         if len(parts) == 2:
             text = parts[1]
-            emit_info(f"🐶 Woof! sending prompt: {text}")
+            emit_info(f"⚒️ Woof! sending prompt: {text}")
             return text
-        emit_info("🐶 Woof! sending prompt: Tell me a dog fact")
+        emit_info("⚒️ Woof! sending prompt: Tell me a dog fact")
         return "Tell me a dog fact"
 
     if name == "echo":

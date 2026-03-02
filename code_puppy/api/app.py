@@ -53,10 +53,10 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     Handles graceful cleanup of resources when the server shuts down.
     """
     # Startup: nothing special needed yet, but this is where you'd do it
-    logger.info("🐶 Code Puppy API starting up...")
+    logger.info("⚒️ Code Puppy API starting up...")
     yield
     # Shutdown: clean up all the things!
-    logger.info("🐶 Code Puppy API shutting down, cleaning up...")
+    logger.info("⚒️ Code Puppy API shutting down, cleaning up...")
 
     # 1. Close all PTY sessions
     try:
@@ -127,12 +127,12 @@ def create_app() -> FastAPI:
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Code Puppy 🐶</title>
+    <title>Code Puppy ⚒️</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
     <div class="text-center">
-        <h1 class="text-6xl mb-4">🐶</h1>
+        <h1 class="text-6xl mb-4">⚒️</h1>
         <h2 class="text-3xl font-bold mb-8">Code Puppy</h2>
         <div class="space-x-4">
             <a href="/terminal" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-lg font-semibold">

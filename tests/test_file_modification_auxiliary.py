@@ -26,7 +26,7 @@ def test_replace_in_file_multiple_replacements(tmp_path):
 
 def test_replace_in_file_unicode(tmp_path):
     path = tmp_path / "unicode.txt"
-    path.write_text("puppy 🐶 says meow")
+    path.write_text("puppy ⚒️ says meow")
     reps = [{"old_str": "meow", "new_str": "woof"}]
     res = file_modifications._replace_in_file(None, str(path), reps)
     assert res["success"]

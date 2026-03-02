@@ -1,5 +1,5 @@
 """
-🐶 MOTD (Message of the Day) feature for code-puppy! 🐕
+⚒️ MOTD (Message of the Day) feature for code-puppy! 🐕
 Stores seen versions in XDG_CONFIG_HOME/code_puppy/motd.txt - woof woof! 🐾
 """
 
@@ -10,7 +10,7 @@ from code_puppy.messaging import emit_info
 
 MOTD_VERSION = "2026-01-01"
 MOTD_MESSAGE = """
-# 🐶 Happy New Year! January 1st, 2026 🎉
+# ⚒️ Happy New Year! January 1st, 2026 🎉
 Reminder that Code Puppy supports three different OAuth subscriptions:
 
 ### Claude Code - `/claude-code-auth`
@@ -55,11 +55,11 @@ def has_seen_motd(version: str) -> bool:  # 🐕 Check if puppy has seen this MO
     return version in seen_versions
 
 
-def mark_motd_seen(version: str):  # 🐶 Mark MOTD as seen by this good puppy!
+def mark_motd_seen(version: str):  # ⚒️ Mark MOTD as seen by this good puppy!
     # Create directory if it doesn't exist 🏠🐕
     os.makedirs(os.path.dirname(MOTD_TRACK_FILE), exist_ok=True)
 
-    # Check if the version is already in the file 📋🐶
+    # Check if the version is already in the file 📋⚒️
     seen_versions = set()
     if os.path.exists(MOTD_TRACK_FILE):
         with open(MOTD_TRACK_FILE, "r") as f:
@@ -73,12 +73,12 @@ def mark_motd_seen(version: str):  # 🐶 Mark MOTD as seen by this good puppy!
 
 def print_motd(
     console=None, force: bool = False
-) -> bool:  # 🐶 Print exciting puppy MOTD!
+) -> bool:  # ⚒️ Print exciting puppy MOTD!
     """
     🐕 Print the message of the day to the user - woof woof! 🐕
 
     Args:
-        console: Optional console object (for backward compatibility) 🖥️🐶
+        console: Optional console object (for backward compatibility) 🖥️⚒️
         force: Whether to force printing even if the MOTD has been seen 💪🐕‍🦺
 
     Returns:
@@ -86,7 +86,7 @@ def print_motd(
     """
     message, version = get_motd_content()
     if force or not has_seen_motd(version):
-        # Create a Rich Markdown object for proper rendering 🎨🐶
+        # Create a Rich Markdown object for proper rendering 🎨⚒️
         from rich.markdown import Markdown
 
         markdown_content = Markdown(message)

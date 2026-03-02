@@ -135,7 +135,7 @@ class TestToolsContentFormatting:
 
     def test_contains_dog_emoji(self):
         """Test that the content contains dog emoji (brand consistency)."""
-        assert "🐶" in tools_content, "Expected dog emoji 🐶 for brand consistency"
+        assert "⚒️" in tools_content, "Expected dog emoji ⚒️ for brand consistency"
 
     def test_contains_markdown_headers(self):
         """Test that content uses markdown-style headers."""

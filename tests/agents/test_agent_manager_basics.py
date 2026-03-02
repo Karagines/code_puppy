@@ -41,7 +41,7 @@ class MockAgent(BaseAgent):
     def __init__(self):
         super().__init__()
         self._name = "mock-agent"
-        self._display_name = "Mock Agent 🐶"
+        self._display_name = "Mock Agent ⚒️"
         self._description = "A mock agent for testing purposes"
 
     @property
@@ -253,7 +253,7 @@ class TestAgentManagerBasics:
         assert isinstance(agents, dict)
         assert len(agents) >= 1
         assert "mock-agent" in agents
-        assert agents["mock-agent"] == "Mock Agent 🐶"
+        assert agents["mock-agent"] == "Mock Agent ⚒️"
         # Check that we have some agents (the actual discovery may include real agents)
         assert len(agents) > 0
 

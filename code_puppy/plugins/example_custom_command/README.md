@@ -60,7 +60,7 @@ def _handle_custom_command(command: str, name: str):
         - str: Text to process as user input to the model
     """
     if name == "woof":
-        emit_info("🐶 Woof!")
+        emit_info("⚒️ Woof!")
         return True  # Handled, don't invoke model
         
     if name == "echo":

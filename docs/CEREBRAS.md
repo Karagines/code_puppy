@@ -1,4 +1,4 @@
-# 🐶 How to Use Code Puppy in cerebras most effective 
+# ⚒️ How to Use Code Puppy in cerebras most effective 
 
 ### 1. First Startup & The "Enter" Quirk
 After installation, run `code-puppy` in your terminal.

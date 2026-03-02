@@ -149,7 +149,7 @@ async def main():
             # Print directly to console to avoid the 'dim' style from emit_system_message
             display_console.print("\n".join(lines))
         except ImportError:
-            emit_system_message("🐶 Code Puppy is Loading...")
+            emit_system_message("⚒️ Code Puppy is Loading...")
 
         # Truecolor warning moved to interactive_mode() so it prints LAST
         # after all the help stuff - max visibility for the ugly red box!
@@ -444,7 +444,7 @@ async def interactive_mode(message_renderer, initial_command: str = None) -> Non
                 )
                 get_message_bus().emit(response_msg)
 
-                emit_success("🐶 Continuing in Interactive Mode")
+                emit_success("⚒️ Continuing in Interactive Mode")
                 emit_system_message(
                     "Your command and response are preserved in the conversation history."
                 )

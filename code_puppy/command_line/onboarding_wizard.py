@@ -1,6 +1,6 @@
 """Interactive TUI onboarding wizard for first-time Code Puppy users.
 
-🐶 Quick 5-slide tutorial. ADHD-friendly!
+⚒️ Quick 5-slide tutorial. ADHD-friendly!
 
 Usage:
     from code_puppy.command_line.onboarding_wizard import (
@@ -291,7 +291,7 @@ async def run_onboarding_wizard() -> Optional[str]:
             content=FormattedTextControl(lambda: _get_slide_panel_content(wizard))
         )
 
-        root_container = Frame(slide_panel, title="🐶 Code Puppy Tutorial")
+        root_container = Frame(slide_panel, title="⚒️ Code Puppy Tutorial")
         layout = Layout(root_container)
 
         app = Application(
@@ -322,7 +322,7 @@ async def run_onboarding_wizard() -> Optional[str]:
     if wizard.result == "skipped":
         emit_info("✓ Tutorial skipped")
     elif wizard.result == "completed":
-        emit_info("✓ Tutorial completed! Welcome to Code Puppy! 🐶")
+        emit_info("✓ Tutorial completed! Welcome to Code Puppy! ⚒️")
     else:
         emit_info("✓ Exited tutorial")
 

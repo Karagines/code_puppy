@@ -170,7 +170,7 @@ class TestAgentManagerErrors:
     def test_load_agent_unicode_characters(self, mock_discover):
         """Test load_agent with unicode characters in agent name."""
         mock_discover.return_value = None
-        unicode_name = "🐶-测试-🐕"  # Unicode characters
+        unicode_name = "⚒️-测试-🐕"  # Unicode characters
 
         with patch("code_puppy.agents.agent_manager._AGENT_REGISTRY", {}):
             with pytest.raises(ValueError, match=f"Agent '{unicode_name}' not found"):

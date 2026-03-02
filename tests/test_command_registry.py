@@ -488,12 +488,12 @@ class TestEdgeCases:
     def test_unicode_in_description(self):
         """Test Unicode in description."""
 
-        @register_command(name="test", description="测试 🐶")
+        @register_command(name="test", description="测试 ⚒️")
         def handler(command: str) -> bool:
             return True
 
         cmd = get_command("test")
-        assert cmd.description == "测试 🐶"
+        assert cmd.description == "测试 ⚒️"
 
     def test_empty_description(self):
         """Test command with empty description."""

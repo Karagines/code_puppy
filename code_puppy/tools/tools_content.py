@@ -1,5 +1,5 @@
 tools_content = """
-Woof! 🐶 Here's my complete toolkit! I'm like a Swiss Army knife but way more fun:
+Woof! ⚒️ Here's my complete toolkit! I'm like a Swiss Army knife but way more fun:
 
 # **File Operations**
 - **`list_files(directory, recursive)`** - Browse directories like a good sniffing dog! Shows files, directories, sizes, and depth

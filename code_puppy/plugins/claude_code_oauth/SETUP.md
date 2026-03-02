@@ -90,4 +90,4 @@ It verifies imports, configuration values, and filesystem expectations without h
 - PKCE protects the flow even without a client secret
 - HTTPS endpoints are enforced for all requests
 
-Enjoy hacking with Claude Code straight from Code Puppy! 🐶💻
+Enjoy hacking with Claude Code straight from Code Puppy! ⚒️💻

@@ -2,7 +2,7 @@
 
 Logs unexpected errors to XDG_STATE_HOME/code_puppy/logs/ for debugging purposes.
 Per XDG spec, logs are "state data" (actions history), not configuration.
-Because even good puppies make mistakes sometimes! 🐶
+Because even good puppies make mistakes sometimes! ⚒️
 """
 
 import os

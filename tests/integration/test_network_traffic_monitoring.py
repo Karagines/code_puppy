@@ -314,7 +314,7 @@ def test_network_traffic_on_simple_message(
 
     try:
         proxy_url = proxy.get_proxy_url()
-        print(f"\n🐶 Proxy started at {proxy_url}")
+        print(f"\n⚒️ Proxy started at {proxy_url}")
 
         # Add proxy settings to environment
         test_env = integration_env.copy()
@@ -331,7 +331,7 @@ def test_network_traffic_on_simple_message(
         cli_harness.wait_for_ready(result)
 
         # Send a simple message
-        print("\n🐶 Sending 'hi' message...")
+        print("\n⚒️ Sending 'hi' message...")
         result.sendline("hi\r")
 
         # Wait for response (with generous timeout for LLM response)
@@ -387,7 +387,7 @@ def test_network_traffic_on_simple_message(
     }
 
     # Let's see what domains we're talking to!
-    print("\n🐶 Woof! I sniffed out these domains:")
+    print("\n⚒️ Woof! I sniffed out these domains:")
     for domain, count in sorted(
         proxy.report.domains_contacted.items(), key=lambda x: x[1], reverse=True
     ):
