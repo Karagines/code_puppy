@@ -107,6 +107,7 @@ from code_puppy.tools.skills_tools import (
     register_list_or_search_skills,
 )
 from code_puppy.tools.universal_constructor import register_universal_constructor
+from code_puppy.tools.web_search import register_browse_page, register_web_search, register_x_search
 
 # Map of tool names to their individual registration functions
 TOOL_REGISTRY = {
@@ -123,6 +124,10 @@ TOOL_REGISTRY = {
     # Command Runner
     "agent_run_shell_command": register_agent_run_shell_command,
     "agent_share_your_reasoning": register_agent_share_your_reasoning,
+    # Web Search / Browse (xAI Agent Tools API)
+    "web_search": register_web_search,
+    "browse_page": register_browse_page,
+    "x_search": register_x_search,
     # User Interaction
     "ask_user_question": register_ask_user_question,
     # Browser Control

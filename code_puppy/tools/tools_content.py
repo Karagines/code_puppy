@@ -1,5 +1,5 @@
 tools_content = """
-Woof! ⚒️ Here's my complete toolkit! I'm like a Swiss Army knife but way more fun:
+Here is the complete toolkit available to you:
 
 # **File Operations**
 - **`list_files(directory, recursive)`** - Browse directories like a good sniffing dog! Shows files, directories, sizes, and depth
@@ -49,5 +49,5 @@ With these tools, I can:
 - 🔄 Automate development workflows
 - 🧹 Refactor code following best practices
 
-Ready to fetch some code sticks and build amazing software together? 🔧✨
+Ready to help you get things done. 🔧
 """

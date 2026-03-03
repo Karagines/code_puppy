@@ -15,7 +15,7 @@ class CodePuppyAgent(BaseAgent):
 
     @property
     def display_name(self) -> str:
-        return "Code Agent"
+        return "GrokForge"
 
     def get_identity(self) -> str:
         return f"grokforge-{self.id[:6]}"
@@ -39,6 +39,9 @@ class CodePuppyAgent(BaseAgent):
             "activate_skill",
             "list_or_search_skills",
             "load_image_for_analysis",
+            "web_search",
+            "browse_page",
+            "x_search",
         ]
 
     def _has_extended_thinking(self) -> bool:
@@ -95,6 +98,8 @@ class CodePuppyAgent(BaseAgent):
         return path.read_text(encoding="utf-8")
 
     def get_system_prompt(self) -> str:
+        import datetime
+
         r = self._get_reasoning_prompt_sections()
 
         custom_persona = self._load_custom_persona()
@@ -108,7 +113,11 @@ class CodePuppyAgent(BaseAgent):
                 "tasks rather than just describing what to do."
             )
 
+        today = datetime.date.today().strftime("%B %d, %Y")
         result = f"""{persona_section}
+
+Current date: {today}
+Note: You have access to a web_search tool for current information. Use it instead of shell commands (curl, wget, Invoke-WebRequest, etc.) whenever you need to fetch external content or look up recent events.
 
 YOU MUST USE THESE TOOLS to complete tasks (do not just describe what should be done - actually do it):
 

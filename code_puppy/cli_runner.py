@@ -129,7 +129,7 @@ async def main():
             import pyfiglet
 
             intro_lines = pyfiglet.figlet_format(
-                "CODE PUPPY", font="ansi_shadow"
+                "GROKFORGE", font="ansi_shadow"
             ).split("\n")
 
             # Simple blue to green gradient (top to bottom)
